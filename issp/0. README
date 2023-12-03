@@ -1,0 +1,54 @@
+Welcome to my final write-up!
+
+*** RQ ***
+The basic motivation of my project is to investigate whether objective inequality (measured by the GINI coefficient),
+left-leaning ideology, or perception that one is under-rewarded or over-rewarded better predicts perceptions
+of inequality.
+
+*** PROJECT PIECES ***
+The project has five relevant components:
+    1. pre-registration_research_protocol: A short write-up of my analysis plan, dataset, and hypotheses.
+    2. issp_inequality_codebook: The code book for the data.
+    3. final_paper: The final write-up.
+    x. issp_analysis: The R code that used to conduct my analyses.
+    xx. issp_inequality_2019: The STATA file of the 1999 ISSP module data.
+    xxx. un_gini_2019: A UN table of the gini indexes of every country in 2019.
+
+*** COMPETING HYPOTHESES ***
+    1. Objective inequality best predicts perceived inequality across countries.
+    2. Left-leaning ideology best predicts perceived inequality across countries.
+    3. Undeserved pay best predicts perceptions of inequality.
+
+*** BAYES PRIORI ***
+The prior probability of each hypothesis predicting perceived inequality.
+
+*** VARIABLES ***
+Dependent Variable
+    DV. perceivedinequality: The perceived inequality variable is recoded from v48. Only response 8 "Can't Choose"
+    was removed, otherwise the variable was left the same as categorical.
+
+Focal Independent Variables
+    IV 1. left: Support for left-wing party was recoded from the PARTY_LR variable.
+    IV 2. gini: The GINI index for every country, taken from the UN. The GINI values are imported from another dataset
+    and added to the social inequality set.
+    IV 3. deservepay: The deserve pay variable is recoded from V312. Responses 1 "Much less than I deserve" and 2
+    "Less than I deserve" are kept as 1 and 2. Response 3 "What I deserve" is kept neutral as 0. Responses 4
+    "More than I deserve" and 5 "Much more than I deserve" are coded as -2 and -1. Responses 6 "Never Worked" and
+    "Can't Choose" were removed.
+
+Controls
+    C1. age: AGE
+    C2. sex: SEX
+    C3. education: EDUCYRS
+    C4. sss: Subjective Social Status (sss)
+    C5. urban_vs_rural: recoded from URBRURAL
+    C6. country: recoded from country.
+    C7. mode: Mode of survey, MODE.
+
+*** PLAN OF ANALYSIS ***
+Ordinal logistic regression. 
+
+*** REPORTING ***
+The paper will report the bayes factors for each model.
+
+
