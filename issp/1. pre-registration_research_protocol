@@ -1,0 +1,74 @@
+Research Protocol—Unjust Deserts, Unequal Society?
+Alex Wilson
+
+RESEARCH QUESTION
+What best predicts perceptions of inequality, a high GINI index, voting for a left-leaning party, or perception of
+personally unjust rewards?
+
+Stated as three hypotheses.
+    (1) A high GINI index has the highest probability of predicting perceptions of inequality;
+    (2) Voting for a left-leaning party has the highest probability of predicting perceptions of inequality;
+    (3) Perception of personally unjust rewards has the highest probability of predicting perceptions of inequality.
+
+DATA
+All materials and analyses for this pre-registered study can be accessed through the public github account:
+https://github.com/AlexanderTheAlright/git/tree/main/issp. The data for this study is taken from the 2019
+“Inequality Module” of the International Social Survey Programme (N = 44,975) and the World Bank’s World Development
+Indicators. The International Social Survey Programme is a cross-national collaboration of annual cross-sectional
+surveys from all over the world. The “Inequality Module” is one of their sections that is specifically focused on
+individual perceptions of inequality. The goal of the sample is to achieve a representative sample of the national
+population 18 years or older. The sampling procedure used is a multistage simple random probability sample collects
+data through a combination of web-based surveys, telephone, and face-to-face interviews. The ISSP is the largest
+international investigation of perceptions of inequality, making it ideal for navigating competing hypotheses driving
+perceptions of inequality. The World Development Indicators is a collection of national, regional, and global estimates
+for various indicators of economic and social development. It was added as a supplementary component of the data since
+the inequality module did not include GINI indexes.
+    The focal variables are four: (DV) perceivedinequality; (IV1) gini; (IV2) left; (IV3) undeservedpay.
+ They are combined with seven controls. To ensure that my open code can be read easily, I will refer to these variables
+ as they have been coded. Any missing data will be dealt with through listwise deletion.
+    perceivedinequality. The ordinal variable, perceived inequality, is recoded from their “type of society” question,
+v48. The type of society question provides five pictorial representations of the distribution of wealth in one’s
+society before asking the respondents to select which society represents their own.
+TYPE A, “A society with few elite and a mass at the bottom,” represents the most inequality, whereas TYPE D and E
+represent the least (the largest middle class). These response choices were coded from TYPE A = 4, TYPE B = 3,
+TYPE C = 2, TYPE D = 1, and TYPE E = 0.
+	gini. The GINI index value will be treated as a continuous variable out of 100. The gini value will be appended to
+the existing ISSP dataset by country. The GINI coefficient is a measure of inequality ranging from 0, perfect
+inequality, to 1 perfect equality. It is measured by calculating the absolute differences between the incomes of all
+pairs of individuals in a population.
+	left. Support for left-wing party will be recoded from the PARTY_LR variable. The ISSP’s PARTY_LR variable
+classifies the vote of the respondent in the last election on a unified ‘left’ and ‘right’ scale. This variable was
+recoded as dummy variable, 1 = left-wing party and 0 = neutral or right-wing party.
+    undeservedpay. The undeserved pay variable will be recoded from v312 as a categorical variable.
+Responses 1 "Much less than I deserve" and 2 "Less than I deserve" are kept as 1 and 2. Response 3 "What I deserve" is
+kept neutral as 0. Responses 4 "More than I deserve" and 5 "Much more than I deserve" are coded as -2 and -1.
+Responses 6 "Never Worked" and "Can't Choose" were removed. Category 0 is used as the reference category for all the
+other responses.
+controls. Seven controls known to effect perceived inequality were used in ascending analyses. Age, sex, education,
+subjective social status (SSS), and mode of survey. Age was treated as a continuous variable, from 18 onwards. Sex was
+treated as a binary, female = 1 and male = 0. Education was measured in terms of years from EDUCYRS and was treated as
+continuous in analysis. Education and leftism have been known to be associated, which would therefore confound the full
+effect if not controlled for. Income is also included since higher income tends to be associated with perceptions of
+inequality. Subjective social status measures an individual’s sense of where they are relative “to those with the best
+jobs, highest incomes, and best educations” on a scale from 1 to 10. It was included because subjective social status
+can confound the effect of undeservedpay, as the actual impact of undeservedpay may be due to low status position and
+low income. Subjective social status was treated as a continuous variable. Perceived inequality can sometimes be
+affected by the social desirability, potentially meaning that in-person surveys will lead to lower reports of perceived
+inequality; as a consequence, survey mode will be treated as a categorical “online,” “in-person,” and “telephone.”
+
+PLAN OF ANALYSIS
+To adjudicate the three hypotheses, my study conducts four ordinal logistic regression models and compares their bayes
+factors. Ordinal logistic regression is used because the dependent variable is ordinal and categorical, perceived
+inequality ranging from most equal (type D) to most inequal (type A). The bayes factors are used because they are
+crucial in integrating prior probability of expecting each of the predictors with the posteriori evidence to establish
+meaningful levels of significance. Given the evidence supporting each independent variable as a predictor of perceived
+inequality, I have chosen to set a normal distribution prior and a standard deviation of two.
+1.	Model one, gini: perceivedinequality – gini + age + sex + education + sss + survey_mode
+2.	Model two, lefty: perceivedinequality – lefty: age + sex + education + sss + survey_mode
+3.	Model three, undeserved pay: perceivedinequality – undeservedpay + age + sex + education + sss + survey_mode
+4.	Model four, combined: perceivedinequality – gini + left + undeservedpay + age + sex + education + sss + survey_mode
+These four basic models will be interpreted in light of their bayes factors, where the highest score will
+suggest the model that best explains variation in perceived inequality. After the initial analyses, which will be
+presented no matter what, sensitivity analyses will also be conducted using different priors and combinations of the
+controls. Results based on different priors and different controls might also be presented if they contribute
+significantly different answers.

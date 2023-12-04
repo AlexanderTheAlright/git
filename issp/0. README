@@ -31,7 +31,7 @@ Focal Independent Variables
     IV 1. left: Support for left-wing party was recoded from the PARTY_LR variable.
     IV 2. gini: The GINI index for every country, taken from the UN. The GINI values are imported from another dataset
     and added to the social inequality set.
-    IV 3. deservepay: The deserve pay variable is recoded from V312. Responses 1 "Much less than I deserve" and 2
+    IV 3. undeservedpay: The deserve pay variable is recoded from V312. Responses 1 "Much less than I deserve" and 2
     "Less than I deserve" are kept as 1 and 2. Response 3 "What I deserve" is kept neutral as 0. Responses 4
     "More than I deserve" and 5 "Much more than I deserve" are coded as -2 and -1. Responses 6 "Never Worked" and
     "Can't Choose" were removed.
@@ -39,14 +39,14 @@ Focal Independent Variables
 Controls
     C1. age: AGE
     C2. sex: SEX
-    C3. education: EDUCYRS
-    C4. sss: Subjective Social Status (sss)
-    C5. urban_vs_rural: recoded from URBRURAL
-    C6. country: recoded from country.
-    C7. mode: Mode of survey, MODE.
+    C3. pincome:
+    C4. education: EDUCYRS
+    C5. sss: Subjective Social Status (sss)
+    C6. mode: Mode of survey, MODE.
+    C7. country:
 
 *** PLAN OF ANALYSIS ***
-Ordinal logistic regression. 
+Ordinal logistic regression.
 
 *** REPORTING ***
 The paper will report the bayes factors for each model.
