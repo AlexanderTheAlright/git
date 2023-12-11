@@ -1,36 +1,71 @@
 # Load necessary library
-library(haven)
+library(MASS)  # for polr (ordinal logistic regression)
+library(haven) # for reading in data
+library(readr)
+library(tidyr)
+library(broom)
+library(knitr)
+library(stargazer)
+library(ggplot2)
 
-# Read the datasets
-political_institutions_path <- "git/gitalec/issp/xxxx. political_institutions_database_2020.csv"
-un_gini_path <- "git/gitalec/issp/xxx. un_gini_2019.csv"
-issp_inequality_path <- "git/gitalec/issp/xx. issp_inequality_2019.dta"
+# load in dataset
 
-political_institutions <- read.csv(political_institutions_path)
-un_gini <- read.csv(un_gini_path)
-issp_inequality <- read_stata(issp_inequality_path)
+# Drop NA values from df in the relevant variables
+df <- df %>%
+  drop_na("perceivedinequality",
+          "gini",
+          "age",
+          "sex",
+          "education",
+          "sss",
+          "survey_mode",
+          "left",
+          "execrlc")
 
-# Rename country columns to 'country' and convert to lowercase
-political_institutions$country <- tolower(political_institutions$country_name)
-un_gini$country <- tolower(un_gini$Country.or.Area)
-issp_inequality$country <- tolower(issp_inequality$country)
+# create opposed variable
+df$opposed <- ifelse(df$execrlc == "Right" & df$left == 1, 1, 0)
 
-# Filter the political institutions data for the year 2018
-political_institutions_2018 <- subset(political_institutions, year == 2018)
+# make sure 'perceivedinequality' and 'age' are numeric
+df$perceivedinequality <- factor(df$perceivedinequality, ordered = TRUE)
+df$age <- as.numeric(as.character(df$age))
 
-# Select only relevant columns (including the new 'country' column)
-political_institutions_2018 <- political_institutions_2018[, c("country", "execcrls")]
-un_gini <- un_gini[, c("country", "Value")]
+# Assuming 'df' is your data frame
+model_gini <- polr(perceivedinequality ~ gini + age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
+model_left <- polr(perceivedinequality ~ left + age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
+model_opposed <- polr(perceivedinequality ~ opposed + age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
+model_combined <- polr(perceivedinequality ~ gini + left + opposed + age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
 
-# Merge the political institutions data with the ISSP Inequality data
-issp_inequality_merged <- merge(issp_inequality, political_institutions_2018,
-                                by = "country", all.x = TRUE)
+# Sensitivity analyses
+# Interaction between gini and age
+model_gini_interaction <- polr(perceivedinequality ~ gini*age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
 
-# Merge the UN GINI data with the ISSP Inequality data
-df <- merge(issp_inequality_merged, un_gini, by = "country", all.x = TRUE)
+# Interaction between left and opposed in the combined model
+model_combined_interaction <- polr(perceivedinequality ~ gini + left*opposed + age + sex + education + sss + survey_mode, data = df, Hess = TRUE)
 
-# View the unified dataset
-head(df)
+# Model without sss and survey_mode
+model_gini_simplified <- polr(perceivedinequality ~ gini + age + sex + education, data = df, Hess = TRUE)
+
+# Model with only gini, left, and opposed
+model_selective <- polr(perceivedinequality ~ gini + left + opposed, data = df, Hess = TRUE)
+
+# Put into table
+stargazer(model_gini, model_left, model_opposed, model_combined,
+          type = "text",
+          out = "y. regression_results.txt",
+          column.labels = c("Model Gini", "Model Left", "Model Opposed", "Model Combined"),
+          digits = 3)
+
+# Means of perceived inequality by country
+df %>%
+  group_by(country_code) %>%
+  summarize(mean_perceivedinequality = mean(perceivedinequality, na.rm = TRUE)) %>%
+  ggplot(aes(x = country_code, y = mean_perceivedinequality)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title = "Average Perceived Inequality by Country",
+       x = "Country Code",
+       y = "Average Perceived Inequality (1 to 4)")
+
 
 
 

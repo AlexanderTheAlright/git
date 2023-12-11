@@ -43,12 +43,36 @@ Controls
     C4. education: EDUCYRS
     C5. sss: Subjective Social Status (sss)
     C6. mode: Mode of survey, MODE.
-    C7. country:
+    C7. country: country_code
 
 *** PLAN OF ANALYSIS ***
-Ordinal logistic regression.
+Ordinal logistic regression. Certainly! Here's a summary of the provided R code suitable for a README file:
+This script performs ordinal logistic regression analysis on a dataset to study the factors influencing perceptions of inequality.
+Key features of the analysis include data preparation, model fitting, sensitivity analyses, and data visualization.
+Libraries Used:
+                             - `MASS`: For performing ordinal logistic regression (function `polr`).
+                             - `haven`, `readr`, `tidyr`: For data manipulation and reading.
+                             - `broom`: For tidying up model outputs.
+                             - `knitr`: For data display and tabulation.
+                             - `stargazer`: For creating well-formatted regression tables.
+                             - `ggplot2`: For data visualization.
+Data Preparation
+                             - The dataset is read into R (assumed to be pre-loaded).
+                             - NA values are dropped from the relevant variables.
+                             - A new variable `opposed` is created based on conditions involving `execrlc` and `left`.
+                             - The `perceivedinequality` and `age` variables are converted to the appropriate formats (factor and numeric, respectively).
 
-*** REPORTING ***
-The paper will report the bayes factors for each model.
+Model Fitting
+                             - Four ordinal logistic regression models (`model_gini`, `model_left`, `model_opposed`, `model_combined`) are fitted to examine the effects of different predictors on perceived inequality.
+                             - The predictors include demographic and socioeconomic factors like `gini`, `age`, `sex`, `education`, `sss` (subjective social status), and `survey_mode`.
+
+Sensitivity Analyses
+                             - Interaction models are created to explore the combined effects of variables (`gini` and `age`, `left` and `opposed`).
+                             - Simplified models are also fitted by excluding certain variables.
+
+Output and Visualization
+                             - Regression results are tabulated using `stargazer` and saved as a text file.
+                             - A bar plot is created to visualize the average perceived inequality by country, showcasing the mean scores for each country.
+
 
 
